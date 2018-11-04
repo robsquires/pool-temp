@@ -7,13 +7,24 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: eu-west-1
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - "s3:PutObject"
+    Resource:
+      - "arn:aws:s3:::pool-temperatures/*"
+  - Effect: "Allow"
+    Action:
+      - "s3:GetObject"
+    Resource:
+      - "arn:aws:s3:::pool-temperatures/*"
 
 functions:
-  processTweet:
-    handler: handler.processTweet
+  ingestTweet:
+    handler: handler.ingestTweet
     timeout: 30
     events:
       - http:
-          path: /process-tweet
+          path: /ingest-tweet
           method: post
           private: false

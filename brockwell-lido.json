@@ -1,0 +1,8 @@
+{
+    "text": "Today's pool temperature is 10.0 we are open from",
+    "created_at": "November 04, 2018 at 04:11PM",
+    "ingested_at": "2018-11-04T16:59:12.063Z",
+    "temperature": 10,
+    "dayOfWeek": "Sunday",
+    "answer": "It's 10.1 degrees"
+}
