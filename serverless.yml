@@ -28,3 +28,11 @@ functions:
           path: /ingest-tweet
           method: post
           private: false
+  refreshTweet:
+      handler: handler.refreshTweet
+      timeout: 30
+      events:
+        - http:
+            path: /refresh-tweet
+            method: post
+            private: false

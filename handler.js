@@ -1,6 +1,9 @@
 'use strict';
 
-const ingestTweet = require('./lib/ingest-tweet');
+const {
+	ingestTweet,
+	refreshTweet
+} = require('./lib/operations');
 
 function writeResponse (statusCode, data) {
 	return {
@@ -16,6 +19,16 @@ function writeResponse (statusCode, data) {
 module.exports.ingestTweet = (event, context, callback) => {
 	const body = JSON.parse(event.body)
 	ingestTweet(body.tweet).then(data => {
+		callback(null, writeResponse(200, data));
+	})
+	.catch(err => {
+		console.error(err);
+		callback(null, writeResponse(500, err));
+	})
+}
+
+module.exports.refreshTweet = (event, context, callback) => {
+	refreshTweet().then(data => {
 		callback(null, writeResponse(200, data));
 	})
 	.catch(err => {
