@@ -1,0 +1,19 @@
+service: pool-temp
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+
+functions:
+  processTweet:
+    handler: handler.processTweet
+    timeout: 30
+    events:
+      - http:
+          path: /process-tweet
+          method: post
+          private: false
