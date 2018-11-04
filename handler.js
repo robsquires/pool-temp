@@ -5,7 +5,7 @@ const {
 	refreshTweet
 } = require('./lib/operations')
 
-function writeResponse (statusCode, data) {
+function writeResponse (statusCode, data = {}) {
 	return {
 		statusCode,
 		headers: {
@@ -18,6 +18,11 @@ function writeResponse (statusCode, data) {
 
 module.exports.ingestTweet = (event, context, callback) => {
 	const body = JSON.parse(event.body)
+
+	if (body.apiKey !== process.env.API_KEY) {
+		return callback(null, writeResponse(403))
+	}
+
 	ingestTweet(body.tweet).then(data => {
 		console.log('OK', data)
 		callback(null, writeResponse(200, data))
