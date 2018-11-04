@@ -1,20 +1,10 @@
 'use strict';
 
-const {
-	appendTemperature,
-	appendDayOfWeek,
-	appendAnswer
-} = require('./lib/steps');
-
-const steps = [
-	appendTemperature,
-	appendDayOfWeek,
-	appendAnswer
-]
+const ingestTweet = require('./lib/ingest-tweet');
 
 module.exports.processTweet = (event, context, callback) => {
 	const body = JSON.parse(event.body);
-	const data = steps.reduce((acc, fn) => fn(acc), {...body.tweet, date: new Date() })
+	const data = ingestTweet(body.tweet);
 	console.log(data)
 	callback(null, {
 		statusCode: 200,
