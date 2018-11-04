@@ -32,7 +32,5 @@ functions:
       handler: handler.refreshTweet
       timeout: 30
       events:
-        - http:
-            path: /refresh-tweet
-            method: post
-            private: false
+        - schedule: cron(0 3 * * ? *)
+
