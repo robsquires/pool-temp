@@ -1,0 +1,30 @@
+{
+  "name": "pool-temp",
+  "version": "1.0.0",
+  "description": "Parses Brockwell Lido's [temperature tweets](https://twitter.com/Brockwell_Lido/status/1058982671001546752) + makes them available to things like Siri",
+  "main": "handler.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "serverless deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robsquires/pool-temp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/robsquires/pool-temp/issues"
+  },
+  "homepage": "https://github.com/robsquires/pool-temp#readme",
+  "dependencies": {
+    "aws-sdk": "^2.765.0"
+  },
+  "devDependencies": {
+    "serverless": "^2.4.0",
+    "serverless-offline": "^6.8.0"
+  }
+}
