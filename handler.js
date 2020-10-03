@@ -17,6 +17,7 @@ function writeResponse (statusCode, data = {}) {
 }
 
 module.exports.ingestTweet = (event, context, callback) => {
+	console.log('Incoming event:', event)
 	const body = JSON.parse(event.body)
 
 	if (body.apiKey !== process.env.API_KEY) {
