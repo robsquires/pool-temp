@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/robsquires/pool-temp#readme",
   "dependencies": {
-    "aws-sdk": "^2.765.0"
+    "aws-sdk": "^2.814.0"
   },
   "devDependencies": {
     "serverless": "^2.4.0",
