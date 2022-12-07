@@ -1,7 +1,12 @@
 'use strict'
 
+const V_1 = /([\d\.]+) degrees/i
+const V_2 = /temperature(?:[^\d]+)([\d.]+)/i
+
 function getTemperature (text) {
-	const m = /temperature(?:[^\d]+)([\d.]+)/i.exec(text);
+	const m = [V_1, V_2]
+		.map(regex => regex.exec(text))
+		.find(m => m !== null)
 	return m ? parseFloat(m[1]) : null;
 }
 

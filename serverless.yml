@@ -5,7 +5,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: eu-west-1
   iamRoleStatements:
   - Effect: "Allow"
@@ -21,7 +21,7 @@ provider:
 
 functions:
   ingestTweet:
-    handler: handler.ingestTweet
+    handler: src/handler.ingestTweet
     timeout: 30
     environment: ${file(.env.yml)}
     events:
@@ -30,7 +30,7 @@ functions:
           method: post
           private: false
   refreshTweet:
-      handler: handler.refreshTweet
+      handler: src/handler.refreshTweet
       timeout: 30
       events:
         - schedule: cron(0 3 * * ? *)

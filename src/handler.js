@@ -20,6 +20,10 @@ module.exports.ingestTweet = (event, context, callback) => {
 	console.log('Incoming event:', event)
 	const body = JSON.parse(event.body)
 
+	if (!body) {
+		return callback(null, writeResponse(400))
+	}
+
 	if (body.apiKey !== process.env.API_KEY) {
 		return callback(null, writeResponse(403))
 	}

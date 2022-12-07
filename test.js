@@ -1,3 +1,5 @@
+const {getTemperature} = require('./src/lib/steps')
+
 const ok = [];
 const errors = []
 function isEqual(actual, expected) {
@@ -29,10 +31,10 @@ const mon = { text: 'Monday\'s pool Temperature is 11.1 we are open at 7:15am ti
 	created_at: 'Mon Oct 29 06:51:33 +0000 2018'
 }
 
-
-function getTemperature (text) {
-	const m = /temperature is ([\d.]+)/i.exec(text);
-	return m ? parseFloat(m[1]) : null;
+const shortDate = {
+	text: "Brockwell lido temperature this Saturday morning (01/02) is 6.3 degrees centigrade",
+	id: 1057887853559078901,
+	created_at: "2014-02-01T07:49:03.000Z"
 }
 
 const DAY_LABELS = [
@@ -81,7 +83,8 @@ isEqual(appendTemperature(today).temperature, 10)
 isEqual(appendTemperature(yday).temperature, 10.1)
 isEqual(appendTemperature(thurs).temperature, 10.3)
 isEqual(appendTemperature(mon).temperature, 11.1)
-
+isEqual(appendTemperature(shortDate).temperature, 6.3)
+console.log(appendTemperature(shortDate))
 isEqual(generateAnswer(today),'Today it\'s 10 degrees')
 isEqual(generateAnswer(yday), 'Yesterday it was 10.1 degrees')
 isEqual(generateAnswer(thurs), 'On Thursday it was 10.3 degrees')
