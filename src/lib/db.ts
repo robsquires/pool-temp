@@ -1,12 +1,11 @@
-'use strict'
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3()
+import { S3 } from 'aws-sdk'
+const s3 = new S3()
 
 const Bucket = 'pool-temperatures'
 
-module.exports = function createClient (Key) {
+export function createClient (Key: string) {
 	
-	function write (data) {
+	function write (data: any) {
 		return s3.putObject({
 			Bucket,
 			Key,
@@ -20,6 +19,9 @@ module.exports = function createClient (Key) {
 			Bucket,
 			Key,
 		}).promise()
+		if (!Body) {
+			throw new Error(`Could not find file at ${Key}`)
+		}
 		return JSON.parse(Body.toString())
 	}
 

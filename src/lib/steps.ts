@@ -1,9 +1,7 @@
-'use strict'
-
 const V_1 = /([\d\.]+) degrees/i
 const V_2 = /temperature(?:[^\d]+)([\d.]+)/i
 
-function getTemperature (text) {
+export function getTemperature (text: string) {
 	const m = [V_1, V_2]
 		.map(regex => regex.exec(text))
 		.find(m => m !== null)
@@ -20,11 +18,11 @@ const DAY_LABELS = [
 	'Saturday'
 ]
 
-function getDayOfWeek (date) {
+function getDayOfWeek (date: Date) {
 	return DAY_LABELS[date.getDay()]
 }
 
-function generateAnswer (tweet) {
+function generateAnswer (tweet: Tweet) {
 	const { temperature, dayOfWeek, date } = tweet
 	const diffBetweenDays = (new Date()).getDay() - date.getDay()
 	switch (diffBetweenDays) {
@@ -38,19 +36,19 @@ function generateAnswer (tweet) {
 	}
 }
 
-function appendTemperature (tweet) {
+function appendTemperature (tweet: Tweet) {
 	return { ...tweet, temperature: getTemperature(tweet.text) }
 }
 
-function appendDayOfWeek (tweet) {
+function appendDayOfWeek (tweet: Tweet) {
 	return { ...tweet, dayOfWeek: getDayOfWeek(tweet.date) }
 }
 
-function appendAnswer (tweet) {
+function appendAnswer (tweet: Tweet) {
 	return { ...tweet, answer:  generateAnswer(tweet) }
 }
 
-function appendIngestedDate (tweet) {
+function appendIngestedDate (tweet: Tweet) {
 	let { date } = tweet
 	if (!date) {
 		date = new Date()
@@ -60,20 +58,26 @@ function appendIngestedDate (tweet) {
 	return { ...tweet, date }
 }
 
-module.exports.getTemperature = getTemperature
 
-module.exports.ingestSteps = [
+export const ingestSteps = [
 	appendIngestedDate,
 	appendTemperature,
 	appendDayOfWeek,
 	appendAnswer
 ]
 
-module.exports.refreshSteps = [
+export const refreshSteps = [
 	appendIngestedDate,
 	appendAnswer
 ]
 
-module.exports.execute = function execute (steps, tweet) {
+export type Tweet = {
+	text: string
+	date: Date
+	temperature?: Number
+	dayOfWeek?: String
+}
+
+export function execute (steps: Function[], tweet: Tweet) {
 	return steps.reduce((acc, fn) => fn(acc), tweet)
 }

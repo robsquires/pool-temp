@@ -1,12 +1,10 @@
-'use strict'
-const { ingestSteps, refreshSteps, execute } = require('./steps')
-const createClient = require('./db')
+import { ingestSteps, refreshSteps, execute, Tweet }  from './steps'
+import {createClient} from './db'
 
 const tweetClient = createClient('brockwell-lido.json')
 const historialClient = createClient('brockwell-lido-historical.json')
 
-
-async function ingestTweet (tweet) {
+export async function ingestTweet (tweet: Tweet) {
 	const processedTweet = execute(ingestSteps, tweet)
 	await tweetClient.write(processedTweet)
 
@@ -18,14 +16,9 @@ async function ingestTweet (tweet) {
 	return processedTweet
 }
 
-async function refreshTweet () {
-	const tweet = await tweetClient.read(tweetLocation)
+export async function refreshTweet () {
+	const tweet = await tweetClient.read()
 	const processedTweet = execute(refreshSteps, tweet)
-	await tweetClient.write(processedTweet, tweetLocation)
+	await tweetClient.write(processedTweet)
 	return processedTweet
-}
-
-module.exports = {
-	ingestTweet,
-	refreshTweet
 }
