@@ -1,11 +1,10 @@
-'use strict'
-
-const {
+import {
 	ingestTweet,
-	refreshTweet
-} = require('./lib/operations')
+	refreshTweet,
+} from './lib/operations'
+import { Tweet } from './lib/steps'
 
-function writeResponse (statusCode, data = {}) {
+function writeResponse (statusCode: Number, data = {}) {
 	return {
 		statusCode,
 		headers: {
@@ -16,7 +15,7 @@ function writeResponse (statusCode, data = {}) {
 	}
 }
 
-module.exports.ingestTweet = (event, context, callback) => {
+module.exports.ingestTweet = (event: any, context: any, callback: Function) => {
 	console.log('Incoming event:', event)
 	const body = JSON.parse(event.body)
 
@@ -38,12 +37,12 @@ module.exports.ingestTweet = (event, context, callback) => {
 	})
 }
 
-module.exports.refreshTweet = (event, context, callback) => {
-	refreshTweet().then(data => {
+module.exports.refreshTweet = (event: any, context: any, callback: Function) => {
+	refreshTweet().then((data: Tweet) => {
 		console.log('OK', data)
 		callback(null, data)
 	})
-	.catch(err => {
+	.catch((err: any) => {
 		console.error(err)
 		callback(err)
 	})

@@ -1,6 +1,7 @@
 service: pool-temp
 
 plugins:
+  - serverless-plugin-typescript
   - serverless-offline
   - serverless-dotenv-plugin
 
