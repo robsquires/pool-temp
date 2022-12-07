@@ -6,6 +6,5 @@ jspm_packages
 .serverless
 
 .keys
-.env.yml
-.env
+*.env
 .DS_Store
