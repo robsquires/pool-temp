@@ -30,6 +30,14 @@ functions:
           path: /ingest-tweet
           method: post
           private: false
+  latestTemperature:
+    handler: src/handler.latestTemperature
+    timeout: 30
+    events:
+      - http:
+          path: /latest-temperature
+          method: get
+          private: false
   refreshTweet:
       handler: src/handler.refreshTweet
       timeout: 30

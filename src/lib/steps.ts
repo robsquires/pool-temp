@@ -78,6 +78,7 @@ export type Tweet = {
 	dayOfWeek?: String
 }
 
+
 export function execute (steps: Function[], tweet: Tweet) {
 	return steps.reduce((acc, fn) => fn(acc), tweet)
 }
