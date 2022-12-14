@@ -3,12 +3,14 @@ import { generateAnswer } from './generate-answer'
 import { parseTweet } from './parse-tweet'
 import { z } from 'zod'
 
+export const TwitterUserName = z.enum(['Brockwell_Lido', 'SerpsSwimClub'])
+
 export const TweetSchema = z.object({
 	text: z.string(),
 	created_at: z.string(),
-	user_name: z.string()
+	user_name: TwitterUserName
 });
-  
+
 export type Tweet = z.infer<typeof TweetSchema>
 
 export enum Source {
