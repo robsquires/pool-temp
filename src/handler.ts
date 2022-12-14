@@ -1,5 +1,4 @@
 import * as operations from './lib/operations'
-import { Tweet } from './lib/steps'
 import { ScheduledHandler, APIGatewayProxyHandler } from 'aws-lambda';
 
 function writeResponse (statusCode: number, data = {}) {
@@ -30,24 +29,18 @@ export const ingestTweet: APIGatewayProxyHandler = async (event) =>  {
 		return writeResponse(403)
 	}
 
-	const data = await operations.ingestTweet(body.tweet);
-	console.log('OK', data)
-	return writeResponse(200, data);
+	const reading = await operations.ingestTweet(body.tweet);
+	if (!reading) {
+		console.log('Skipped tweet')
+		return writeResponse(200, { result: 'SKIPPED'});
+	}	
+	const latestReading = await operations.refreshLatestReading();
+	
+	return writeResponse(200, { result: 'COMPLETED', reading: latestReading });
 }
 
-export const refreshTweet: ScheduledHandler =  async (event) => {
+export const refreshLatestReading: ScheduledHandler =  async (event) => {
 	console.log('refreshTweet event:', event);
-	const data = await operations.refreshTweet();
-	console.log('OK', data);
-}
-
-export const latestTemperature: APIGatewayProxyHandler = async (event) =>  {
-	console.log('latestTemperature event:', event)
-	try {
-		const data = await operations.getTemperature();
-		return writeResponse(200, data)
-	} catch(err: any) {
-		console.error(err)
-		return writeResponse(500, err)
-	}
+	const reading = await operations.refreshLatestReading();
+	console.log('OK', reading);
 }
