@@ -4,6 +4,7 @@ plugins:
   - serverless-plugin-typescript
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-plugin-aws-alerts
 
 provider:
   name: aws
@@ -21,10 +22,42 @@ provider:
     Resource:
       - "arn:aws:s3:::pool-temperatures/*"
 
+custom:
+  alerts:
+    stages:
+      - dev
+      - production
+    topics:
+      alarm:
+        topic: ${self:service}-${opt:stage}-alerts-alarm
+        notifications:
+          - protocol: email
+            endpoint: rob@squires-associates.com # Change this to your email address
+    definitions:
+      httpApiAlarm:
+        description: 'Http 4XX Responses'
+        prefixTemplate: $[stackName]
+        namespace: AWS/ApiGateway
+        metric: 4XXError
+        period: 60
+        statistic: Sum
+        threshold: 1
+        evaluationPeriods: 1
+        datapointsToAlarm: 1
+        comparisonOperator: GreaterThanOrEqualToThreshold
+        omitDefaultDimension: true
+        dimensions:
+          - Name: ApiName
+            Value: ${opt:stage}-${self:service}
+    alarms:
+      - functionErrors
+  
 functions:
   ingestTweet:
     handler: src/handler.ingestTweet
     timeout: 30
+    alarms:
+      - httpApiAlarm
     events:
       - http:
           path: /ingest-tweet
