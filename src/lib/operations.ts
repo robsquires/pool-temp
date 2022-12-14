@@ -1,11 +1,15 @@
 import { createClient, createListClient } from './db'
 import { generateAnswer } from './generate-answer'
 import { parseTweet } from './parse-tweet'
+import { z } from 'zod'
 
-export type Tweet = {
-	text: string
-	created_at: string
-}
+export const TweetSchema = z.object({
+	text: z.string(),
+	created_at: z.string(),
+	user_name: z.string()
+});
+  
+export type Tweet = z.infer<typeof TweetSchema>
 
 export enum Source {
 	Tweet = 'TWEET',
