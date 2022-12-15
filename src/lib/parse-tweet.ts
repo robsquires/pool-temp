@@ -17,6 +17,11 @@ export function parseTweet(tweet: Tweet): TemperatureReading | null {
 		return null
 	}
 
+	if (isNaN(temperature)) {
+		console.log('Kinda recognised this tweet but couldn\'t parse temperature:', tweet)
+		throw new Error('Unknown tweet format')
+	}
+
 	return {
 		date: new Date(tweet.created_at),
 		temperature,
