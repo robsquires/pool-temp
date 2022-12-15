@@ -41,6 +41,21 @@ describe('brockwell lido', () => {
             expect(
                 parseTweet(createTweet('Monday\'s pool temperature is 10.1 we...')
             )).toMatchObject({ temperature: 10.1 })
+            expect(
+                parseTweet(createTweet('Good morning swimmers! \n\nTemperature 23.5 💦 \n\n6:30-18:30, last entry 18:00\n\nSee you all soon')
+            )).toMatchObject({ temperature: 23.5 })
+        })
+
+        test('"temp is X" format', () => {
+            expect(
+                parseTweet(createTweet('Good morning swimmers! \n\nSaturdays pool temp is 14.4')
+            )).toMatchObject({ temperature: 14.4 })
+            expect(
+                parseTweet(createTweet('Good morning swimmers! \n\nLido open 7:30-6pm, final entry 5pm\n\nPool temp 20.9 💦')
+            )).toMatchObject({ temperature: 20.9 })
+            expect(
+                parseTweet(createTweet('Pool is temporarily closed due to a minor technical issue.')
+            )).toEqual(null)           
         })
 
         test('"it\'s X degrees" format', () => {
@@ -53,6 +68,9 @@ describe('brockwell lido', () => {
             expect(
                 parseTweet(createTweet('It\'s Monday and it\'s 10.1 degrees')
             )).toMatchObject({ temperature: 10.1 })
+            expect(
+                parseTweet(createTweet('It\'s Monday and it\'s 10.1degrees')
+            )).toMatchObject({ temperature: 10.1 })
         })
 
         test('"X is the pool temperature today 😀" format', () => {
@@ -61,10 +79,19 @@ describe('brockwell lido', () => {
             ).toThrow()
         })
 
-        test('"Good morning swimmers! \n\nSaturdays pool temp is 14.4" format', () => {
+        test('"X°C" format', () => {
             expect(
-                parseTweet(createTweet('Good morning swimmers! \n\nSaturdays pool temp is 14.4')
-            )).toMatchObject({ temperature: 14.4 })
+                parseTweet(createTweet('Happy Monday! The lido is a wonderful 19°C, jump on in! ')
+            )).toMatchObject({ temperature: 19 })
+            expect(
+                parseTweet(createTweet('Happy Monday! The lido is a wonderful 19°c, jump on in! ')
+            )).toMatchObject({ temperature: 19 })
+            expect(
+                parseTweet(createTweet('Happy Monday! The lido is a wonderful 19.4°C, jump on in! ')
+            )).toMatchObject({ temperature: 19.4 })
+            expect(
+                parseTweet(createTweet('Happy Monday! The lido is a wonderful 19.4 °C, jump on in! ')
+            )).toMatchObject({ temperature: 19.4 })
         })
 
         test('short date format', () => {
