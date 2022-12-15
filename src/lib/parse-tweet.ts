@@ -2,9 +2,10 @@ import { Source, TemperatureReading, Tweet } from "./operations";
 
 const V_1 = /([\d.]+) degrees/i
 const V_2 = /temperature(?:[^\d]+)([\d.]+)/i
+const V_3 = /temp(?:[^\d]+)([\d.]+)/i
 
 function brockwellTweet (text: string): number | null {
-	const m = [V_1, V_2]
+	const m = [V_1, V_2, V_3]
 		.map(regex => regex.exec(text))
 		.find(m => m !== null)
 	return m ? parseFloat(m[1]) : null;

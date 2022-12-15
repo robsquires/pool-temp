@@ -61,6 +61,12 @@ describe('brockwell lido', () => {
             ).toThrow()
         })
 
+        test('"Good morning swimmers! \n\nSaturdays pool temp is 14.4" format', () => {
+            expect(
+                parseTweet(createTweet('Good morning swimmers! \n\nSaturdays pool temp is 14.4')
+            )).toMatchObject({ temperature: 14.4 })
+        })
+
         test('short date format', () => {
             expect(
                 parseTweet(createTweet('Brockwell lido temperature this Saturday morning (01/02) is 6.3 degrees centigrade')
